@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF 护眼阅读器</title>
+  <link rel="resource" type="application/l10n" href="vendor/pdfjs/web/locale/locale.json">
+  <link rel="stylesheet" href="vendor/pdfjs/web/pdf_viewer.css">
+  <link rel="stylesheet" href="reader.css">
+  <script type="module" src="reader.mjs"></script>
+</head>
+<body data-mode="dark">
+  <header class="toolbar">
+    <div class="toolbar-row">
+      <div class="brand"><span class="brand-icon" aria-hidden="true">▤</span>PDF 护眼阅读器</div>
+      <button id="openFile" type="button">打开文件</button>
+      <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden>
+      <span id="documentName" class="document-name" hidden></span>
+
+      <div id="navigation" class="navigation" aria-label="PDF 导航" hidden>
+        <button id="previousPage" class="icon-button" type="button" title="上一页" aria-label="上一页">‹</button>
+        <input id="pageNumber" type="number" min="1" value="1" aria-label="页码">
+        <span class="page-total">/ <span id="pageCount"></span></span>
+        <button id="nextPage" class="icon-button" type="button" title="下一页" aria-label="下一页">›</button>
+        <select id="zoom" aria-label="缩放">
+          <option value="auto">自动缩放</option>
+          <option value="page-width">适应宽度</option>
+          <option value="page-fit">适应页面</option>
+          <option value="0.75">75%</option>
+          <option value="1">100%</option>
+          <option value="1.25">125%</option>
+          <option value="1.5">150%</option>
+          <option value="2">200%</option>
+          <option value="3">300%</option>
+        </select>
+        <button id="findButton" type="button" aria-expanded="false" aria-controls="findBar" title="查找 (Ctrl+F)">查找</button>
+      </div>
+    </div>
+
+    <div class="toolbar-row comfort-row">
+      <div id="mode" class="mode-switch" role="group" aria-label="阅读模式">
+        <button type="button" data-mode="dark" aria-pressed="true"><span class="swatch night" aria-hidden="true"></span>黑底白字</button>
+        <button type="button" data-mode="warm" aria-pressed="false"><span class="swatch warm" aria-hidden="true"></span>暖色纸张</button>
+        <button type="button" data-mode="soft" aria-pressed="false"><span class="swatch soft" aria-hidden="true"></span>柔和灰阶</button>
+        <button type="button" data-mode="original" aria-pressed="false"><span class="swatch original" aria-hidden="true"></span>原色</button>
+      </div>
+      <label class="brightness" for="brightness">亮度
+        <input id="brightness" type="range" min="45" max="100" value="100">
+        <output id="brightnessValue" for="brightness">100%</output>
+      </label>
+      <button id="ruler" type="button" aria-pressed="false" title="调暗阅读行上下的内容">阅读尺</button>
+    </div>
+
+    <form id="findBar" class="toolbar-row find-bar" role="search" hidden>
+      <input id="findInput" type="search" placeholder="在 PDF 中查找" aria-label="在 PDF 中查找" autocomplete="off">
+      <span id="findCount" class="muted" role="status"></span>
+      <button id="findPrevious" type="button">上一处</button>
+      <button type="submit">下一处</button>
+      <button id="findClose" class="icon-button" type="button" aria-label="关闭查找">×</button>
+    </form>
+  </header>
+
+  <main class="reading-area">
+    <section id="home" class="home" aria-labelledby="homeTitle">
+      <div class="open-panel">
+        <span class="document-symbol" aria-hidden="true">▤</span>
+        <h1 id="homeTitle">打开 PDF</h1>
+        <button id="chooseFile" class="primary" type="button">选择本地 PDF</button>
+        <p class="drop-hint">也可以将 PDF 拖到这里</p>
+        <form id="urlForm" class="url-form">
+          <input id="urlInput" type="url" placeholder="粘贴 PDF 链接" aria-label="PDF 链接" required>
+          <button type="submit">打开链接</button>
+        </form>
+        <p id="status" class="status" role="status"></p>
+        <button id="grantAccess" class="primary" type="button" hidden>允许访问并打开</button>
+        <form id="passwordForm" class="url-form" hidden>
+          <input id="passwordInput" type="password" aria-label="PDF 密码" placeholder="PDF 密码" autocomplete="off" required>
+          <button type="submit">解锁</button>
+        </form>
+      </div>
+    </section>
+
+    <div id="viewerContainer" tabindex="0" aria-label="PDF 页面" hidden>
+      <div id="viewer" class="pdfViewer"></div>
+    </div>
+    <div id="rulerShade" aria-hidden="true" hidden></div>
+  </main>
+</body>
+</html>

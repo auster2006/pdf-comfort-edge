@@ -1,0 +1,9 @@
+Mozilla PDF.js 6.5.438
+https://github.com/mozilla/pdf.js/releases/tag/v6.5.438
+https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-6.5.438.tgz
+https://github.com/mozilla/pdf.js/tree/v6.5.438/l10n
+
+The PDF display library and worker use upstream legacy minified files under shorter filenames.
+The viewer module and stylesheet use the matching upstream legacy build.
+The images, fonts, CMaps and decoders are upstream assets.
+The zh-CN and en-US Fluent files come from the source tree and use MPL-2.0.
